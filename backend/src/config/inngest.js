@@ -1,5 +1,6 @@
 import { Inngest } from "inngest";
 import { connectDB } from "./db.js";
+import User from "../models/User.js";
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "presidency-meet" });
@@ -28,6 +29,9 @@ const deleteUserFromDB = inngest.createFunction(
   { id: "delete-user-from-db" },
   { event: "clerk/user.deleted" },
   async ({ event }) => {
+    await connectDB();
+
+    // Delete user from our database
     const { id } = event.data;
     await User.deleteOne({ clerkId: id });
     // todo more things here
