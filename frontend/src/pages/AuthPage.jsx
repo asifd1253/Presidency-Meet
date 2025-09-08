@@ -17,7 +17,10 @@ const AuthPage = () => {
           </div>
 
           <h1 className="hero-title">Welcome to the Class✨</h1>
-          <p className="hero-subtitle">This is a simple authentication page.</p>
+          <p className="hero-subtitle">
+            A smart platform designed for Presidency University — connect,
+            collaborate, and make every meeting more meaningful.
+          </p>
 
           <div className="features-list">
             <div className="feature-item">
@@ -48,7 +51,7 @@ const AuthPage = () => {
       <div className="auth-right">
         <div className="auth-image-container">
           <img
-            src="/auth-i2.png"
+            src="/authImage.png"
             alt="Team collaboration"
             className="auth-image"
           />
