@@ -24,7 +24,7 @@ const App = () => {
       />
 
       <Route
-        path="/call"
+        path="/call/:id"
         element={isSignedIn ? <CallPage /> : <Navigate to={"/auth"} replace />}
       />
 
