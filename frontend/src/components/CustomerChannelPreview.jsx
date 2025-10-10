@@ -11,7 +11,7 @@ const CustomerChannelPreview = ({
 
   if (isDM) return null;
 
-  const unreadCount = channel.unreadCount;
+  const unreadCount = channel.countUnread();
 
   return (
     <button

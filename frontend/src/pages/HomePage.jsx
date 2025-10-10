@@ -6,6 +6,7 @@ import PageLoader from "../components/PageLoader";
 import CreateChannelModal from "../components/CreateChannelModal";
 import CustomerChannelPreview from "../components/CustomerChannelPreview";
 import UsersList from "../components/UsersList";
+import CustomChannelHeader from "../components/CustomChannelHeader";
 
 import {
   Chat,
@@ -56,7 +57,7 @@ const HomePage = () => {
                     alt="Logo"
                     className="brand-logo"
                   />
-                  <span className="brand-name">Meet</span>
+                  <span className="brand-name">Presi Meet</span>
                 </div>
                 <div className="user-button-wrapper">
                   <UserButton />
@@ -130,6 +131,7 @@ const HomePage = () => {
             <Channel channel={activeChannel}>
               <Window>
                 {/* Customer Channel Header */}
+                <CustomChannelHeader />
                 <MessageList />
                 <MessageInput />
               </Window>
