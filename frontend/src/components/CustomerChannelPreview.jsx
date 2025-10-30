@@ -6,6 +6,10 @@ const CustomerChannelPreview = ({
   activeChannel,
 }) => {
   const isActive = activeChannel && activeChannel.id === channel.id;
+
+  // Hide channels whose id starts with "user_"
+  if (channel.data?.id?.startsWith("user_")) return null;
+
   const isDM =
     channel.data.member_count === 2 && channel.data.id.includes("user_");
 

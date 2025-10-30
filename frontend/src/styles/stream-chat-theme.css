@@ -484,6 +484,35 @@
   pointer-events: none;
 }
 
+.channel-sections {
+  position: relative;
+  z-index: 1;
+  max-height: calc(100vh - 120px); /* same effect as inline style */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(116, 58, 213, 0.6) transparent;
+}
+
+/* Optional: add a nice scrollbar style for Chrome/Edge */
+.channel-sections::-webkit-scrollbar {
+  width: 6px;
+}
+
+.channel-sections::-webkit-scrollbar-thumb {
+  background: rgba(116, 58, 213, 0.6);
+  border-radius: 10px;
+}
+
+.channel-sections::-webkit-scrollbar-thumb:hover {
+  background: rgba(116, 58, 213, 0.8);
+}
+
+@media (max-width: 768px) {
+  .channel-sections {
+    max-height: calc(100vh - 80px); /* smaller header on mobile */
+  }
+}
+
 @keyframes subtleShimmer {
   0%,
   100% {
