@@ -13,8 +13,32 @@ import * as Sentry from "@sentry/node";
 
 const app = express();
 
+const allowedOrigins = [
+  ENV.CLIENT_URL,
+  process.env.CORS_ORIGINS,
+  "http://localhost:5173",
+  "https://presidency-meet-frontend.vercel.app",
+]
+  .flatMap((value) => (value ? value.split(",") : []))
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const corsOptions = {
+  origin(origin, callback) {
+    // Allow non-browser requests and approved browser origins.
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+};
+
 app.use(express.json()); // Middleware to parse JSON request bodies
-app.use(cors({ origin: ENV.CLIENT_URL, credentials: true })); // Enable CORS for all routes
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(clerkMiddleware()); //req auth will be available in the request object
 
 app.get("/debug-sentry", (req, res) => {
