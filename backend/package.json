@@ -4,8 +4,8 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "dev": "set NODE_OPTIONS=--import ./instrument.mjs && nodemon src/server.js",
-    "start": "set NODE_OPTIONS=--import ./instrument.mjs && node src/server.js"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",

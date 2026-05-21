@@ -12,9 +12,24 @@ import cors from "cors";
 import * as Sentry from "@sentry/node";
 
 const app = express();
+const allowedOrigins = [ENV.CLIENT_URL].filter(Boolean);
 
 app.use(express.json()); // Middleware to parse JSON request bodies
-app.use(cors({ origin: ENV.CLIENT_URL, credentials: true })); // Enable CORS for all routes
+app.use(
+  cors({
+    origin(origin, callback) {
+      const isLocalDevOrigin =
+        ENV.NODE_ENV !== "production" && /^http:\/\/localhost:\d+$/.test(origin || "");
+
+      if (!origin || allowedOrigins.includes(origin) || isLocalDevOrigin) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+); // Enable CORS for all routes
 app.use(clerkMiddleware()); //req auth will be available in the request object
 
 app.get("/debug-sentry", (req, res) => {
@@ -31,16 +46,16 @@ app.use("/api/chat", chatRoutes);
 Sentry.setupExpressErrorHandler(app); // Sentry error handler
 
 const startServer = async () => {
+  if (ENV.NODE_ENV !== "production") {
+    app.listen(ENV.PORT, () => {
+      console.log(`Server running on port ${ENV.PORT}`);
+    });
+  }
+
   try {
     await connectDB();
-    if (ENV.NODE_ENV !== "production") {
-      app.listen(ENV.PORT, () => {
-        console.log(`Server running on port ${ENV.PORT}`);
-      });
-    }
   } catch (error) {
-    console.error("Failed to start server:", error);
-    process.exit(1); // Exit the process with an error code
+    console.error("Server is running, but MongoDB connection failed.");
   }
 };
 
